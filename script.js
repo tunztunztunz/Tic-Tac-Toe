@@ -3,10 +3,6 @@ const Player = (name) => {
     let score = 0;
     let moves = new Array(0);
 
-    let getMoves = () => {
-        return moves;
-    }
-
     let getName = () => {
         return playerName;
     }
@@ -25,12 +21,10 @@ const Player = (name) => {
 
     let resetRound = () => {
         moves.length = 0;
-        console.log(`${playerName} is now reset. My array of moves is ${getMoves()}`);
     }
 
     let resetGame = () => {
         resetRound();
-        console.log(`this is reset game in ${getName()}`)
         score = 0;
     }
 
@@ -42,7 +36,6 @@ const Player = (name) => {
         moves,
         resetRound,
         resetGame
-
     };
 };
 
@@ -72,8 +65,6 @@ const gameBoard = (() => {
         displayPlayer2Score.textContent = player2.getScore();
     }
 
-    let getBoard = () => moves;
-
     let renderBoard = () => {
         for (var index in moves) {
             cells[index].textContent = moves[index];
@@ -85,12 +76,10 @@ const gameBoard = (() => {
     }
 
     let storeMove = (cell, player) => {
-
         for (var index in moves) {
             moves[index] = cells[index].textContent;
             if (cells[index] === cell) {
                 player.moves.push(index);
-                console.log(player.moves);
             }
         }
     }
@@ -105,6 +94,7 @@ const gameBoard = (() => {
                 gameFlow.foundWinner(player);
                 return
             }
+            gameFlow.tieCheck();
             gameFlow.changePlayerTurn();
         }
     }
@@ -112,7 +102,6 @@ const gameBoard = (() => {
     let reset = () => {
         moves = Array(9).fill('');
         renderBoard();
-        console.log('gameboard resetting');
     }
 
     let makeAnnouncement = (string) => {
@@ -163,7 +152,7 @@ const gameBoard = (() => {
                 if (gameFlow.checkForRoundOver() === true) {
                     return
                 } else {
-                    gameBoard.markBoard(e.target, gameFlow.playerTurn());
+                    markBoard(e.target, gameFlow.playerTurn());
                 }
             });
         })
@@ -172,19 +161,15 @@ const gameBoard = (() => {
     return {
         updateNames,
         updateScores,
-        getBoard,
-        markBoard,
-        renderBoard,
         reset,
         initListeners,
         makeAnnouncement,
-        toggleAnnouncement,
         displayWinCondition
     };
 })();
 
 const gameFlow = (() => {
-
+    let turn = 0;
     let newGamebutton = document.querySelector('.new-game');
     let isRoundOver = false;
     let isGameOver = false;
@@ -200,7 +185,7 @@ const gameFlow = (() => {
 
     let changePlayerTurn = () => {
         player1.isTurn = !player1.isTurn;
-
+        turn += 1;
     };
 
     let winningCombos = [
@@ -224,10 +209,19 @@ const gameFlow = (() => {
         gameBoard.updateScores();
         roundOverToggle();
         if (checkForGameWinner(player)) {
-            gameBoard.makeAnnouncement(`${player.getName()} has won the game`)
+            gameBoard.makeAnnouncement(`${player.getName()} has won the game!`)
         } else {
             gameBoard.makeAnnouncement(`${player.getName()} has won the round!`);
         }
+    }
+
+    let tieCheck = () => {
+        turn === 8 ? isTie() : false;
+    }
+
+    let isTie = () => {
+        roundOverToggle();
+        gameBoard.makeAnnouncement(`${player1.getName()} and ${player2.getName()} have tied!`);
     }
 
     let checkForRoundOver = () => {
@@ -249,7 +243,10 @@ const gameFlow = (() => {
         }
     }
 
-    let resetGameBoard = () => gameBoard.reset();
+    let resetGameBoard = () => {
+        turn = 0;
+        gameBoard.reset();
+    }
 
     let newRound = () => {
         if (isGameOver === true || isRoundOver === false) return;
@@ -308,7 +305,8 @@ const gameFlow = (() => {
         checkForGameWinner,
         foundWinner,
         setNewGame,
-        isGameOver
+        isGameOver,
+        tieCheck
     }
 })();
 
