@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Poppins:wght@300;400&600&display=swap');
+
+html {
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    text-align: center;
+}
+
+
+button:focus {
+    outline: none;
+}
+
+button {
+    font-size: 0.8em;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    transition: font-weight .25s;
+}
+
+.scoreboard {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-bottom: 1px solid black;
+    width: 50%;
+    height: 6rem;
+    margin: 1vh auto 50px;
+    justify-items: center;
+    align-items: center;
+    font-size: 1.25em;
+    box-sizing: border-box;
+
+}
+
+
+
+.scoreboard button:hover {
+    font-weight: 700;
+}
+
+
+.player-board {
+    display: flex;
+}
+
+.player-board>p {
+    margin: 0 10px;
+}
+
+.buttons {
+    display: flex;
+    font-size: 1.25rem;
+    width: 100%;
+    margin: 2em 0;
+
+}
+
+.buttons>button {
+    margin: 0 10%;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-gap: 10px;
+    width: 38%;
+    height: auto;
+    margin: 5vh auto;
+    padding: .5em;
+
+}
+
+.board div::before {
+    content: "";
+    padding-bottom: 100%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border: 1px solid black;
+    font-size: 6vw;
+    font-weight: 400;
+    transition: border .35s;
+}
+
+.cell:hover {
+    border: 5px solid black;
+}
+
+.settings-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.settings-form,
+.announcement {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 44.5%;
+    margin-top: -10.625rem;
+    margin-left: -1.5rem;
+    box-sizing: border-box;
+    padding: 0.625rem 1.875rem 0.625rem;
+    border: 1px solid var(--main-black);
+    border-radius: 1rem;
+    color: var(--main-white);
+    background-color: white;
+    z-index: 2;
+}
+
+.settings-form input {
+    margin: 1rem auto 1rem;
+    width: 100%;
+    height: 2rem;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+}
+
+.settings-form label {
+    font-size: 1.1em;
+}
+
+.settings-form button {
+    display: inline;
+    margin: 0 .75rem .75rem;
+}
+
+.settings-form h2 {
+    font-family: 'Abril Fatface', cursive;
+}
+
+.warning {
+    color: orange;
+}
+
+.submit-button:hover {
+    font-weight: 700;
+    color: green;
+}
+
+.cancel-button:hover {
+    font-weight: 700;
+    color: red;
+}
+
+.announcement {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.75rem;
+    font-weight: 300;
+}
+
+.hide {
+    display: none;
+}
