@@ -48,7 +48,6 @@ const Player = (name) => {
 
 const gameBoard = (() => {
     let moves = Array.from(Array(9).keys());
-    let board = document.querySelector('.board');
     let cells = document.querySelectorAll('.cell');
     let displayPlayer1Score = document.querySelector('.player1-score');
     let displayPlayer2Score = document.querySelector('.player2-score');
@@ -62,7 +61,6 @@ const gameBoard = (() => {
     let announcement = document.querySelector('.announcement');
     let announcementContent = document.querySelector('.announcement-content');
     let settingsDisplay = document.querySelector('.display-game-settings');
-
 
     let updateNames = () => {
         displayPlayer1Name.textContent = player1.getName() + ':';
@@ -103,11 +101,11 @@ const gameBoard = (() => {
             cell.textContent = moveValue;
             storeMove(cell, player);
             renderBoard();
-            if (GameFlow.checkWinner(player)) {
-                GameFlow.foundWinner(player);
+            if (gameFlow.checkWinner(player)) {
+                gameFlow.foundWinner(player);
                 return
             }
-            GameFlow.changePlayerTurn();
+            gameFlow.changePlayerTurn();
         }
     }
 
@@ -149,7 +147,7 @@ const gameBoard = (() => {
             if (playerOneName === '' || playerTwoName === '' || numberOfRounds <= 0) {
                 warningText.textContent = 'Please finish filling out the form';
             } else {
-                GameFlow.setNewGame(playerOneName, playerTwoName, numberOfRounds);
+                gameFlow.setNewGame(playerOneName, playerTwoName, numberOfRounds);
                 toggleSettings();
                 settingsForm.reset();
             }
@@ -157,15 +155,15 @@ const gameBoard = (() => {
 
         announcement.addEventListener('click', () => {
             toggleAnnouncement();
-            GameFlow.newRound();
+            gameFlow.newRound();
         })
 
         cells.forEach(cell => {
             cell.addEventListener('click', (e) => {
-                if (GameFlow.checkForRoundOver() === true) {
+                if (gameFlow.checkForRoundOver() === true) {
                     return
                 } else {
-                    gameBoard.markBoard(e.target, GameFlow.playerTurn());
+                    gameBoard.markBoard(e.target, gameFlow.playerTurn());
                 }
             });
         })
@@ -185,7 +183,7 @@ const gameBoard = (() => {
     };
 })();
 
-const GameFlow = (() => {
+const gameFlow = (() => {
 
     let newGamebutton = document.querySelector('.new-game');
     let isRoundOver = false;
@@ -195,13 +193,13 @@ const GameFlow = (() => {
     let getWinCondition = () => winCondition;
 
     let playerTurn = () => {
-        if (player1.isturn === true) {
+        if (player1.isTurn === true) {
             return player1;
         } else return player2
     };
 
     let changePlayerTurn = () => {
-        player1.isturn = !player1.isturn;
+        player1.isTurn = !player1.isTurn;
 
     };
 
@@ -320,4 +318,4 @@ player1.isTurn = true;
 gameBoard.updateNames()
 gameBoard.updateScores()
 gameBoard.initListeners();
-GameFlow.initButtons();
+gameFlow.initButtons();
