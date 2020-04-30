@@ -60,6 +60,18 @@ const gameBoard = (() => {
         displayPlayer2Name.textContent = player2.getName() + ':';
     }
 
+    let togglePlayerColor = (player) => {
+        if (player === player1) {
+            displayPlayer1Name.classList.remove('player-color')
+            displayPlayer2Name.classList.toggle('player-color');
+        } else {
+            displayPlayer2Name.classList.remove('player-color')
+            displayPlayer1Name.classList.toggle('player-color');
+        }
+
+
+    }
+
     let updateScores = () => {
         displayPlayer1Score.textContent = player1.getScore();
         displayPlayer2Score.textContent = player2.getScore();
@@ -96,6 +108,7 @@ const gameBoard = (() => {
             }
             gameFlow.tieCheck();
             gameFlow.changePlayerTurn();
+            togglePlayerColor(player);
         }
     }
 
@@ -164,7 +177,8 @@ const gameBoard = (() => {
         reset,
         initListeners,
         makeAnnouncement,
-        displayWinCondition
+        displayWinCondition,
+        togglePlayerColor
     };
 })();
 
@@ -313,6 +327,7 @@ const gameFlow = (() => {
 const player1 = Player('Jeff');
 const player2 = Player('Andre');
 player1.isTurn = true;
+gameBoard.togglePlayerColor('player1');
 gameBoard.updateNames()
 gameBoard.updateScores()
 gameBoard.initListeners();
